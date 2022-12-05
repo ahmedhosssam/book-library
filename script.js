@@ -11,7 +11,7 @@ const overlay = document.querySelector('.overlay');
 const addBookModal = document.getElementById('addBookModal');
 const body = document.querySelector('.body');
 const cardsContainer = document.querySelector('.cards-container');
-const remove = document.querySelector('.remove');
+
 const submit = document.getElementById('submit');
 
 // Book Items
@@ -47,7 +47,6 @@ function addBookToLibrary(e) {
     pages,
   };
   myLibrary.push(book);
-  console.log(myLibrary);
 
   // create new book
   const bookCard = document.createElement('div');
@@ -63,6 +62,8 @@ function addBookToLibrary(e) {
   pagesP.classList.add('book-pages');
   readBtn.classList.add('is-read');
   removeBtn.classList.add('remove');
+  removeBtn.dataset.bookID = myLibrary.length; /* */
+  bookCard.dataset.bookID = myLibrary.length;
 
   name.textContent = `"${book.title}"`;
   authorP.textContent = book.author;
@@ -78,16 +79,22 @@ function addBookToLibrary(e) {
   cardsContainer.appendChild(bookCard);
 
   closeAddBookModal();
+  const removeButtonsAll = document.querySelectorAll('.remove');
+  for (let i = 0; i < removeButtonsAll.length; i++) {
+    removeButtonsAll[i].addEventListener('click', removeCard);
+  }
 }
 
-// function addBookToGrid() {}
-
-function removeCard() {
-  const bookCard = document.querySelectorAll('.book-card');
-  bookCard.remove();
+function removeCard(e) {
+  const bookID = e.target.dataset.bookID;
+  const allBookCards = document.querySelectorAll('.book-card');
+  for (let i = 0; i < allBookCards.length; i++) {
+    if (bookID == allBookCards[i].dataset.bookID) {
+      allBookCards[i].remove();
+    }
+  }
 }
 
 addBook.addEventListener('click', openAddBookModal);
 overlay.addEventListener('click', closeAddBookModal);
-remove.addEventListener('click', removeCard);
 submit.addEventListener('click', addBookToLibrary);
