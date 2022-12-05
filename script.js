@@ -1,8 +1,4 @@
-let myLibrary = [
-  { title: 'Deep Work', author: 'Cal Newport', pages: 387 },
-  { title: 'God Delusion', author: 'Richard Dawkins', pages: 387 },
-  { title: 'The Sapiens', author: 'Cal Newport', pages: 691 },
-];
+let myLibrary = [];
 
 function book(title, author, pages) {
   this.title = title;
@@ -39,45 +35,52 @@ function closeAddBookModal() {
   }
 }
 
-function getBookFromInput() {
+function addBookToLibrary(e) {
+  e.preventDefault();
   const title = document.getElementById('title').value;
   const author = document.getElementById('author').value;
   const pages = document.getElementById('pages').value;
-  return new book(title, author, pages);
-}
 
-function addBookToLibrary() {
-  const newBook = getBookFromInput();
+  const book = {
+    title,
+    author,
+    pages,
+  };
+  myLibrary.push(book);
+  console.log(myLibrary);
 
   // create new book
   const bookCard = document.createElement('div');
   const name = document.createElement('p');
-  const author = document.createElement('p');
-  const pages = document.createElement('p');
+  const authorP = document.createElement('p');
+  const pagesP = document.createElement('p');
   const readBtn = document.createElement('button');
   const removeBtn = document.createElement('button');
 
   bookCard.classList.add('book-card');
-  name.className.add('book-name');
-  author.className.add('book-author');
-  pages.className.add('book-pages');
+  name.classList.add('book-name');
+  authorP.classList.add('book-author');
+  pagesP.classList.add('book-pages');
   readBtn.classList.add('is-read');
   removeBtn.classList.add('remove');
 
-  title.textContent = `"${newBook.title}"`;
-  author.textContent = newBook.author;
-  pages.textContent = `${newBook.pages} pages`;
+  name.textContent = `"${book.title}"`;
+  authorP.textContent = book.author;
+  pagesP.textContent = `${book.pages} pages`;
+  readBtn.textContent = `Not Read`;
   removeBtn.textContent = 'Remove';
 
-  bookCard.appendChild('name');
-  bookCard.appendChild('author');
-  bookCard.appendChild('pages');
-  bookCard.appendChild('readBtn');
-  bookCard.appendChild('removeBtn');
+  bookCard.appendChild(name);
+  bookCard.appendChild(authorP);
+  bookCard.appendChild(pagesP);
+  bookCard.appendChild(readBtn);
+  bookCard.appendChild(removeBtn);
   cardsContainer.appendChild(bookCard);
 
   closeAddBookModal();
 }
+
+// function addBookToGrid() {}
 
 function removeCard() {
   const bookCard = document.querySelectorAll('.book-card');
@@ -88,5 +91,3 @@ addBook.addEventListener('click', openAddBookModal);
 overlay.addEventListener('click', closeAddBookModal);
 remove.addEventListener('click', removeCard);
 submit.addEventListener('click', addBookToLibrary);
-
-console.log(myLibrary);
