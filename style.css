@@ -77,6 +77,10 @@ header {
 }
 
 .is-read {
+  background-color: green;
+}
+
+.is-not-read {
   background-color: rgb(255, 70, 70);
 }
 

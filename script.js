@@ -4,6 +4,7 @@ function book(title, author, pages) {
   this.title = title;
   this.author = author;
   this.pages = pages;
+  this.isRead = false;
 }
 
 const addBook = document.querySelector('.add-book');
@@ -40,11 +41,13 @@ function addBookToLibrary(e) {
   const title = document.getElementById('title').value;
   const author = document.getElementById('author').value;
   const pages = document.getElementById('pages').value;
+  const isRead = document.getElementById('isRead').checked;
 
   const book = {
     title,
     author,
     pages,
+    isRead,
   };
   myLibrary.push(book);
 
@@ -60,15 +63,21 @@ function addBookToLibrary(e) {
   name.classList.add('book-name');
   authorP.classList.add('book-author');
   pagesP.classList.add('book-pages');
-  readBtn.classList.add('is-read');
   removeBtn.classList.add('remove');
   removeBtn.dataset.bookID = myLibrary.length; /* */
   bookCard.dataset.bookID = myLibrary.length;
 
+  if (book.isRead) {
+    readBtn.classList.add('is-read');
+    readBtn.textContent = `Read`;
+  } else {
+    readBtn.classList.add('is-not-read');
+    readBtn.textContent = `Not Read`;
+  }
+
   name.textContent = `"${book.title}"`;
   authorP.textContent = book.author;
   pagesP.textContent = `${book.pages} pages`;
-  readBtn.textContent = `Not Read`;
   removeBtn.textContent = 'Remove';
 
   bookCard.appendChild(name);
