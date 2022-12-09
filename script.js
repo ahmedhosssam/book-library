@@ -1,10 +1,12 @@
 let myLibrary = [];
 
-function book(title, author, pages) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = false;
+class Book {
+  constructor(title, author, pages, isRead) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
+  }
 }
 
 const addBook = document.querySelector('.add-book');
@@ -12,6 +14,7 @@ const overlay = document.querySelector('.overlay');
 const addBookModal = document.getElementById('addBookModal');
 const body = document.querySelector('.body');
 const cardsContainer = document.querySelector('.cards-container');
+// const isRead = document.querySelector('.is-read');
 
 const submit = document.getElementById('submit');
 
@@ -43,15 +46,11 @@ function addBookToLibrary(e) {
   const pages = document.getElementById('pages').value;
   const isRead = document.getElementById('isRead').checked;
 
-  const book = {
-    title,
-    author,
-    pages,
-    isRead,
-  };
+  const book = new Book(title, author, pages, isRead);
+  console.log(book.isRead); // Create a new object for the book
   myLibrary.push(book);
 
-  // create new book
+  // create new book card
   const bookCard = document.createElement('div');
   const name = document.createElement('p');
   const authorP = document.createElement('p');
@@ -92,6 +91,7 @@ function addBookToLibrary(e) {
   for (let i = 0; i < removeButtonsAll.length; i++) {
     removeButtonsAll[i].addEventListener('click', removeCard);
   }
+  readBtn.addEventListener('click', changeIsReadButton);
 }
 
 function removeCard(e) {
@@ -101,6 +101,18 @@ function removeCard(e) {
     if (bookID == allBookCards[i].dataset.bookID) {
       allBookCards[i].remove();
     }
+  }
+}
+
+function changeIsReadButton(e) {
+  if (e.target.textContent == 'Not Read') {
+    e.target.className = '';
+    e.target.textContent = 'Read';
+    e.target.classList.add('is-read');
+  } else if (e.target.textContent == 'Read') {
+    e.target.className = '';
+    e.target.textContent = 'Not Read';
+    e.target.classList.add('is-not-read');
   }
 }
 
